@@ -1,0 +1,57 @@
+---
+title: "NCAA Women's Volleyball Play-by-Play Analysis 🏐"
+subtitle: "Exploring attack locations and shot outcome statistics"
+execute:
+  echo: false
+  warning: false
+---
+
+## Overview
+
+This analysis leverages **over 100,000 play-by-play observations** from NCAA Division I Women's Volleyball matches. 
+
+```{r}
+#| label: setup
+#| include: false
+library(tidyverse)
+library(scales)
+
+# Download NCAA Women's Volleyball Play-by-Play Data (100k+ rows)
+pbp_url <- "[https://raw.githubusercontent.com/JeffreyRStevens/ncaavolleyballr/main/inst/extdata/pbp_wvb_d1_2023.csv](https://raw.githubusercontent.com/JeffreyRStevens/ncaavolleyballr/main/inst/extdata/pbp_wvb_d1_2023.csv)"
+vball_data <- read_csv(pbp_url)
+...
+...
+#| label: volleyball-graphic
+#| fig-width: 9
+#| fig-height: 5.5
+#| fig-cap: "Distribution of shot outcomes across top division teams based on 100k+ play-by-play contacts."
+
+# Filter for attack/kill/error outcomes
+attack_data <- vball_data %>%
+  filter(!is.na(action_type)) %>%
+  count(team_name, action_type) %>%
+  group_by(team_name) %>%
+  filter(sum(n) > 500) %>% # Keep top active teams
+  slice_max(n, n = 15)
+
+ggplot(attack_data, aes(x = reorder(team_name, n), y = n, fill = action_type)) +
+  geom_col(position = "stack", width = 0.7) +
+  coord_flip() +
+  scale_y_continuous(labels = comma) +
+  scale_fill_manual(values = c("#FF85A1", "#FBB1BD", "#B5E2FA", "#03045E", "#70D6FF")) +
+  labs(
+    title = "Shot Action Counts Across Top Teams",
+    subtitle = paste("Based on", comma(nrow(vball_data)), "NCAA play-by-play events"),
+    x = "Team Name",
+    y = "Total Recorded Actions",
+    fill = "Action Type",
+    caption = "Data: ncaavolleyballr package"
+  ) +
+  theme_minimal(base_size = 13) +
+  theme(
+    plot.title = element_text(face = "bold", size = 16, color = "#2B2D42"),
+    plot.subtitle = element_text(color = "#8D99AE", margin = margin(b = 10)),
+    legend.position = "bottom",
+    panel.grid.minor = element_blank(),
+    plot.background = element_rect(fill = "#FAFAFA", color = NA)
+  ---

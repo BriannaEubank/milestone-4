@@ -1,0 +1,23 @@
+[
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "NCAA Women’s Volleyball Play-by-Play Analysis 🏐",
+    "section": "",
+    "text": "This analysis leverages over 100,000 play-by-play observations from NCAA Division I Women’s Volleyball matches.\n#| label: setup #| include: false library(tidyverse) library(scales)"
+  },
+  {
+    "objectID": "index.html#overview",
+    "href": "index.html#overview",
+    "title": "NCAA Women’s Volleyball Play-by-Play Analysis 🏐",
+    "section": "",
+    "text": "This analysis leverages over 100,000 play-by-play observations from NCAA Division I Women’s Volleyball matches.\n#| label: setup #| include: false library(tidyverse) library(scales)"
+  }
+]
